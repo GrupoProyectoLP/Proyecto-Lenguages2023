@@ -58,8 +58,7 @@ class AppProvider{
     }
   }
 
-//Lo lleve momentaneamente al home para hacer pruebas
- /* Future<List<Movies>> getUpcomingMovies(int page) async {
+  Future<List<Movies>> getUpcomingMovies(int page) async {
   final url = Uri.parse('${Constants.movieBasePath}''upcoming''${Constants.selectedLang}$page${Constants.key}');
     try {
       final res = await http.get(url);
@@ -75,7 +74,7 @@ class AppProvider{
     } catch (error) {
       throw Exception('Error al obtener los datos');
     }
-  }*/
+  }
 
     Future<void> getCredits(Result movie) async {
     final url = Uri.parse('${Constants.movieBasePath}${movie.id}''/credits''${Constants.selectedLang}${Constants.key}');
