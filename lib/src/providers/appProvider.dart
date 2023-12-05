@@ -17,11 +17,8 @@ class AppProvider{
     }).catchError((err) => print(err));
   }
 
-
-  List<Cast> credits = [];
-
-  Future<List<Movies>> getPopularMovie(int page) async {
-    final url = Uri.parse('${Constants.movieBasePath}''popular''${Constants.selectedLang}$page${Constants.key}');
+  Future<List<Movies>> getPopularMovie() async {
+    final url = Uri.parse('${Constants.movieBasePath}''popular''${Constants.selectedLang}${Constants.key}');
 
     try {
       final res = await http.get(url);
@@ -33,14 +30,14 @@ class AppProvider{
       final String body = res.body;
       final bodyJson = json.decode(body)['results'] as List;
       
-      return bodyJson.map((popular) => Movies.fromJson(popular)).toList();
+      return bodyJson.map((topRated) => Movies.fromJson(topRated)).toList();
     } catch (error) {
       throw Exception('Error al obtener los datos');
     }
   }
 
-  Future<List<Movies>> getTopRatedMovies(int page) async {
-    final url = Uri.parse('${Constants.movieBasePath}''top_rated''${Constants.selectedLang}$page${Constants.key}');
+  Future<List<Movies>> getTopRatedMovies() async {
+    final url = Uri.parse('${Constants.movieBasePath}''top_rated''${Constants.selectedLang}${Constants.key}');
     
     try {
       final res = await http.get(url);
@@ -58,8 +55,8 @@ class AppProvider{
     }
   }
 
-  Future<List<Movies>> getUpcomingMovies(int page) async {
-  final url = Uri.parse('${Constants.movieBasePath}''upcoming''${Constants.selectedLang}$page${Constants.key}');
+  Future<List<Movies>> getUpcomingMovies() async {
+  final url = Uri.parse('${Constants.movieBasePath}''upcoming''${Constants.selectedLang}${Constants.key}');
     try {
       final res = await http.get(url);
 
@@ -76,7 +73,26 @@ class AppProvider{
     }
   }
 
-    Future<void> getCredits(Result movie) async {
+  Future<List<Cast>> getPopularPeople() async {
+  final url = Uri.parse('${Constants.personUrl}${Constants.selectedLang}${Constants.key}');
+    try {
+      final res = await http.get(url);
+
+      if (res.statusCode != 200) {
+        throw Exception('Error al obtener los datos');
+      }
+
+      final String body = res.body;
+      final bodyJson = json.decode(body)['results'] as List;
+      
+      return bodyJson.map((people) => Cast.fromJson(people)).toList();
+    } catch (error) {
+      throw Exception('Error al obtener los datos');
+    }
+  }
+
+List<Cast> credits = [];
+    Future<void> getCredits(Movies movie) async {
     final url = Uri.parse('${Constants.movieBasePath}${movie.id}''/credits''${Constants.selectedLang}${Constants.key}');
     
     try {

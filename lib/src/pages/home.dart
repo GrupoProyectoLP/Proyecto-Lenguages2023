@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tmdb_style_app/src/models/credits.dart';
 import 'package:tmdb_style_app/src/models/movies.dart';
 import 'package:tmdb_style_app/src/providers/appProvider.dart';
 import 'package:tmdb_style_app/src/widgets/MovieSlider.dart';
-import 'package:tmdb_style_app/src/widgets/TrendingMovies.dart';
+import 'package:tmdb_style_app/src/widgets/PopularMovies.dart';
 import 'package:tmdb_style_app/src/widgets/drawer.dart';
 
 class Home extends StatefulWidget{
@@ -19,11 +18,13 @@ class _HomeState extends State<Home>{
   late Future<List<Movies>> popularMovies;
   late Future<List<Movies>> topRatedMovies;
   late Future<List<Movies>> upcomingMovies;
-  late Future<List<Person>> movieCredits;
   
 @override
 void initState(){
   super.initState();
+  popularMovies = AppProvider().getPopularMovie();
+  topRatedMovies = AppProvider().getTopRatedMovies();
+  upcomingMovies = AppProvider().getUpcomingMovies();
 }
 
 @override
@@ -45,39 +46,86 @@ Widget build(BuildContext context){
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Trending movies',
+              Padding(
+          padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+            child: Text('Populares',
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
+                  color: Colors.black87,
+                  fontSize: 25, fontFamily: 'muli'
                 ),
               ),
-              const SizedBox(height: 30),
-              const PopularMovies(),
-              SizedBox(height: 30),
-              const Text(
-                'Top Rated Movies',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                ),
-              ),
-              const MovieSlider(),
-              const SizedBox(height: 30),
-              const Text(
-                'Upcoming Movies',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                ),
               ),
               const SizedBox(height: 30),
-              const MovieSlider(),
+              SizedBox(
+                child: FutureBuilder(
+                future: popularMovies, 
+                builder: (context, snapshot){
+                  if(snapshot.hasError){
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  }else if(snapshot.hasData){
+                    return PopularMovies(snapshot: snapshot);
+                  }else{
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+                }),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+          padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+            child: Text('Mejor Valoradas',
+                style: TextStyle(
+                  color: Colors.black87, 
+                  fontSize: 25, fontFamily: 'muli'
+                ),
+              ),
+              ),
+              SizedBox(
+                child: FutureBuilder(
+                future: topRatedMovies, 
+                builder: (context, snapshot){
+                  if(snapshot.hasError){
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  }else if(snapshot.hasData){
+                    return MovieSlider(snapshot: snapshot);
+                  }else{
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+                }),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+          padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+            child: Text('Próximos Estrenos',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 25, fontFamily: 'muli'
+                ),
+              ),
+              ),
+              SizedBox(
+                child: FutureBuilder(
+                future: upcomingMovies, 
+                builder: (context, snapshot){
+                  if(snapshot.hasError){
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  }else if(snapshot.hasData){
+                    return MovieSlider(snapshot: snapshot);
+                  }else{
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+                }),
+              ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
       ),
-          
         );
   }
 }         

@@ -1,17 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import 'package:tmdb_style_app/src/widgets/constants.dart';
+
 class PopularMovies extends StatelessWidget {
-  const PopularMovies({
-    super.key,
+  PopularMovies({
+    super.key, required this.snapshot,
   });
+final AsyncSnapshot snapshot;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: CarouselSlider.builder(
-        itemCount: 10,
+        itemCount: snapshot.data!.length,
         options: CarouselOptions(
           height: 300,
           autoPlay: true,
@@ -21,16 +24,17 @@ class PopularMovies extends StatelessWidget {
           enlargeCenterPage: true,
           pageSnapping: true,
         ),
-        itemBuilder: (context, itemIndex, pageViewIndex) {
+       itemBuilder: (context, itemIndex, pageViewIndex) {
           return ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Container(
+            child: SizedBox(
               height: 300,
               width: 200,
-              color: Colors.amber,
+              child: Image.network(filterQuality: FilterQuality.high, fit: BoxFit.cover,
+                      '${Constants.imagePath}${snapshot.data[itemIndex].posterPath}'),
             ),
           );
-        },
+        }, //itemBilder
       ),
     );
   }

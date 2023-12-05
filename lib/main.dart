@@ -22,8 +22,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.green,
-      ),
+        ),
       initialRoute: Routes.welcomePage.name,
       routes: MyRoutes.routes,
       onGenerateRoute: (RouteSettings settings) {
