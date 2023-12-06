@@ -50,7 +50,7 @@ Widget build(BuildContext context){
           padding: const EdgeInsets.only(left: 10.0, top: 20.0),
             child: Text('Populares',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Color.fromARGB(255, 13, 37, 63),
                   fontSize: 25, fontFamily: 'muli'
                 ),
               ),
@@ -76,7 +76,7 @@ Widget build(BuildContext context){
           padding: const EdgeInsets.only(left: 10.0, top: 20.0),
             child: Text('Mejor Valoradas',
                 style: TextStyle(
-                  color: Colors.black87, 
+                  color: Color.fromARGB(255, 13, 37, 63), 
                   fontSize: 25, fontFamily: 'muli'
                 ),
               ),
@@ -101,7 +101,7 @@ Widget build(BuildContext context){
           padding: const EdgeInsets.only(left: 10.0, top: 20.0),
             child: Text('Próximos Estrenos',
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Color.fromARGB(255, 13, 37, 63),
                   fontSize: 25, fontFamily: 'muli'
                 ),
               ),
@@ -122,6 +122,8 @@ Widget build(BuildContext context){
                 }),
               ),
               const SizedBox(height: 30),
+              Text('Personas en tendencia', style: TextStyle(fontSize: 4,color: Colors.white, fontFamily: 'muli',),),
+              SizedBox(height: 12)
             ],
           ),
         ),

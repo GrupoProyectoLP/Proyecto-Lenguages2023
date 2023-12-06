@@ -90,23 +90,4 @@ class AppProvider{
       throw Exception('Error al obtener los datos');
     }
   }
-
-List<Cast> credits = [];
-    Future<void> getCredits(Movies movie) async {
-    final url = Uri.parse('${Constants.movieBasePath}${movie.id}''/credits''${Constants.selectedLang}${Constants.key}');
-    
-    try {
-      final res = await http.get(url);
-
-      if (res.statusCode != 200) {
-        throw Exception('Error al obtener los datos');
-      }
-
-      final Map<String, dynamic> data = json.decode(res.body);
-      final List<dynamic> results = data['credits'];
-      credits = results.map((results) => Cast.fromJson(results)).toList();
-    } catch (error) {
-      throw Exception('Error al obtener los datos');
-    }
-  }
 }
