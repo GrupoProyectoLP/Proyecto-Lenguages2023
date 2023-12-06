@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:tmdb_style_app/src/models/credits.dart';
 import 'package:tmdb_style_app/src/models/movies.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-import 'package:tmdb_style_app/src/widgets/item_credits.dart';
 import 'package:tmdb_style_app/src/widgets/constants.dart';
 
 //ignore: must_be_immutable
@@ -13,7 +9,6 @@ class DetailsMovie extends StatelessWidget {
   final Movies movie;
   DetailsMovie(this.movie);
 
-  List<Cast> credits = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,26 +114,7 @@ class DetailsMovie extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(movie.overview ?? 'Sin descripción disponible'),
-                    const Text(
-                      "Reparto",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    FutureBuilder(
-                        future: getCredits(movie),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            return SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Credit(credits: credits),
-                            );
-                          } else if (snapshot.hasError) {
-                            return const Text('Error al obtener los créditos.');
-                          } else {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                        }),
+                    SizedBox(height: 12),
                   ],
                 ),
               ),
@@ -147,24 +123,6 @@ class DetailsMovie extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> getCredits(Movies movie) async {
-    final url = Uri.parse('${Constants.movieBasePath}${movie.id}''/credits''${Constants.selectedLang}${Constants.key}');
-    
-    try {
-      final res = await http.get(url);
-
-      if (res.statusCode != 200) {
-        throw Exception('Error al obtener los datos');
-      }
-
-      final Map<String, dynamic> data = json.decode(res.body);
-      final List<dynamic> results = data['credits'];
-      credits = results.map((results) => Cast.fromJson(results)).toList();
-    } catch (error) {
-      throw Exception('Error al obtener los datos');
-    }
   }
 }
 

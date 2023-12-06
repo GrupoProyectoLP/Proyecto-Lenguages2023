@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tmdb_style_app/src/models/credits.dart';
 import 'package:tmdb_style_app/src/models/movies.dart';
 import 'package:tmdb_style_app/src/models/user_login.dart';
 import 'package:tmdb_style_app/src/widgets/constants.dart';
@@ -68,24 +67,6 @@ class AppProvider{
       final bodyJson = json.decode(body)['results'] as List;
       
       return bodyJson.map((upcoming) => Movies.fromJson(upcoming)).toList();
-    } catch (error) {
-      throw Exception('Error al obtener los datos');
-    }
-  }
-
-  Future<List<Cast>> getPopularPeople() async {
-  final url = Uri.parse('${Constants.personUrl}${Constants.selectedLang}${Constants.key}');
-    try {
-      final res = await http.get(url);
-
-      if (res.statusCode != 200) {
-        throw Exception('Error al obtener los datos');
-      }
-
-      final String body = res.body;
-      final bodyJson = json.decode(body)['results'] as List;
-      
-      return bodyJson.map((people) => Cast.fromJson(people)).toList();
     } catch (error) {
       throw Exception('Error al obtener los datos');
     }

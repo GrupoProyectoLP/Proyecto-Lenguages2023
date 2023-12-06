@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_style_app/src/models/movies.dart';
+import 'package:tmdb_style_app/src/widgets/constants.dart';
 
 class RowMovie extends StatelessWidget {
   const RowMovie({
@@ -22,7 +23,7 @@ class RowMovie extends StatelessWidget {
                 width: 100,
                 height: 150,
                 child: Image.network(
-                  "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
+                  '${Constants.imagePath}${movie.posterPath}',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -34,11 +35,8 @@ class RowMovie extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      movie.title ?? 'Sin título',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    Text(movie.title ?? 'Sin título',
+                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold,
                       ),
                     ),
                     Row(
@@ -54,7 +52,7 @@ class RowMovie extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${movie.overview!.length < 150 ? movie.overview : movie.overview?.substring(0, 150)}...',
+                      '${movie.overview.length < 150 ? movie.overview : movie.overview.substring(0, 150)}...',
                     ),
                   ],
                 ),
